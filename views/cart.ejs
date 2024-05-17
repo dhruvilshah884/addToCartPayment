@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
+<body>
+    <% let totalPrice = 0; %>
+    <% cartItems.forEach((item) => { %>
+        <% let itemTotalPrice = item.product.price * item.quantity; %>
+        <% totalPrice += itemTotalPrice; %>
+        <div class="cart-item">
+            <div><%= item.product.name %></div>
+            <div>Price per item: ₹<%= item.product.price %></div>
+            <div>Quantity: <%= item.quantity %></div>
+            <div>Total price for this item: ₹<%= itemTotalPrice %></div>
+            <img src="/uploads/<%= item.product.image %>" alt="Product Image" height="100px" width="100px">
+            <form action="/increment-quantity" method="POST">
+                <input type="hidden" name="productId" value="<%= item.product._id %>">
+                <button type="submit">+</button>
+            </form>
+            <form action="/decrement-quantity" method="POST">
+                <input type="hidden" name="productId" value="<%= item.product._id %>">
+                <button type="submit">-</button>
+            </form>
+        </div>
+        <% let userEmail = req.session.user.email%>
+        <%let publishableKey = "pk_test_51ONZYOSAJLtohZuHHWhLPDWQs0YPf5y3jm0LCiiUKNEEDsndfStwcKP83HR9yfXRogRKsA5AyjH8fSmcZDyLtSEg00WB0fVQK5" %>
+        <form method="post" action="/payment-process">
+            <input type="hidden" name="pruductName" value="<%= item.product.name %>"/>
+            <input type="hidden" name="totalPrice" value="<%= totalPrice %>"/>
+            <input type="hidden" name="userEmail" value="<%=userEmail%>">
+            <input type="hidden" name="publishableKey" value="<%=publishableKey%>">
+            <button type="submit">checkout</button>
+        </form>
+        
+    <% }) %>
+    <div>
+        <h3>Total Price: ₹<%= totalPrice %></h3>
+        
+    </div>
+</body>
+</html>
