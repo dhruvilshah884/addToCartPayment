@@ -4,7 +4,8 @@
   "description": "const express = require('express');\r const app = express();\r const mongoose = require('mongoose');\r const session = require('express-session');\r const jwt = require('jsonwebtoken');\r const multer = require('multer');\r app.set('view engine', 'ejs')",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node app.js"
   },
   "keywords": [],
   "author": "",
